@@ -75,7 +75,7 @@ public class OrdersOperation {
 	}
 	
 	/**
-	 * Retrieve a list of all orders from a specific day to now
+	 * Retrieve all orders within a given time period
 	 * @param days - numbers of days start from (e.g. 2 days = from 2 days ago to now)
 	 * @return list of all orders from a specific day to now
 	 */
