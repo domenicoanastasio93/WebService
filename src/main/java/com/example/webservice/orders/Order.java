@@ -18,9 +18,9 @@ public class Order implements Serializable {
 	private Integer ID;
 	private String email;
 	private ArrayList<Product> products;
-	private Long time;
+	private String time;
 	
-	public Order(Integer ID, String email, ArrayList<Product> products, Long time) {
+	public Order(Integer ID, String email, ArrayList<Product> products, String time) {
 		this.ID = ID;
 		this.email = email;
 		this.products = products;
@@ -51,24 +51,11 @@ public class Order implements Serializable {
 		this.products = products;
 	}
 
-	public long getTime() {
+	public String getTime() {
 		return time;
 	}
 
-	public void setTime(long time) {
+	public void setTime(String time) {
 		this.time = time;
 	}
-
-	@Override
-	public String toString() {
-		
-		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy  HH:mm:ss");    
-		Date date = new Date(time);
-		
-		return "{ID: " + ID +
-				" | Buyer's e-mail: " + email +
-				" | Products list: " + products +
-				" | Placed time: " + format.format(date) + "}";
-	}
-
 }

@@ -4,7 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +47,10 @@ public class OrdersOperation {
 		if(o.getEmail() == null || o.getProducts() == null || o.getProducts().size() == 0)
 			return new ResponseEntity<Order>(HttpStatus.BAD_REQUEST);
 		
-		Order newOrder = new Order(Init.orders.size(), o.getEmail(), o.getProducts(), System.currentTimeMillis());
+		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy  HH:mm:ss");    
+		Date date = new Date(System.currentTimeMillis());
+		
+		Order newOrder = new Order(Init.orders.size(), o.getEmail(), o.getProducts(), format.format(date));
 		Init.orders.add(newOrder);
 		
 		out = new ObjectOutputStream(new FileOutputStream(Init.ordersFile));
@@ -85,12 +91,22 @@ public class OrdersOperation {
 		if(days < 1)
 			return new ResponseEntity<ArrayList<Order>>(HttpStatus.BAD_REQUEST);
 		
-		long time = 86400000 * days;
+		long time = 86400000 * days, ms = 0;
 		ArrayList<Order> list = new ArrayList<>();
 		
 		for(int i=0; i<Init.orders.size(); i++) {
 			
-			if(System.currentTimeMillis()-Init.orders.get(i).getTime() <= time)
+			String stringDate = Init.orders.get(i).getTime();
+
+			SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy  HH:mm:ss");
+			try {
+			    Date d = f.parse(stringDate);
+			    ms = d.getTime();
+			} catch (ParseException e) {
+			    e.printStackTrace();
+			}
+			
+			if(System.currentTimeMillis()-ms <= time)
 				list.add(Init.orders.get(i));
 		}
 		
