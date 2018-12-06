@@ -88,7 +88,7 @@ public class ProductsOperation {
 	}
 	
 	/**
-	 * Retrieve a list of all products
+	 * Retrieve all products
 	 * @return JSON of the list of products
 	 */
 	@RequestMapping(value="", method=RequestMethod.GET)
