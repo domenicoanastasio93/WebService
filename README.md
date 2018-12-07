@@ -34,7 +34,7 @@ located in the main project directory.
 ---
 # 2. Products
 
-## 2.1 Entity Classes
+## 2.1 Entity Class
 
 Class **Product** has 3 parameters:
 * ID
@@ -47,7 +47,7 @@ Description | Method
 ----------- | ------
 Create a new product | *createProduct(Product)*
 Retrieve all products | *retrieveProdcuts()*
-Update a product | *updateProduct(ProductUpdate)*
+Update a product | *updateProduct(Product)*
 
 ---
 # 3. Orders
