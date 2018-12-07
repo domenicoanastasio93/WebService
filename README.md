@@ -68,10 +68,11 @@ Class **Order** has 4 parameters:
 
 ## 3.2 Methods
 
-It is possible to do 3 operations:
-* Place and order ( *placeOrder(Order)* )
-* Calculate the amount of an order ( *calculateAmount(Order)* )
-* Retrieve all orders within a given time period ( *retrieveOrders(Integer)* )
+Description | Method
+----------- | ------
+Place an order | *placeOrder(Order)*
+Calculate the amount of an order | *calculateAmount(Order)*
+Retrieve all orders within a given time period | *retrieveOrders(Integer)*
 
 ---
 # 4. RestController
