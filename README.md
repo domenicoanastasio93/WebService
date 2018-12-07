@@ -109,6 +109,6 @@ Path | Method | Input | Output
 /products | POST | ```{"name": string, "price": double}``` | ```{"ID": integer, "name": string, "price": double}```
 /products/{ID} | PUT | ```{"ID": integer, "name": string, "price": double}``` | ```{"ID": integer, "name": string, "price": double}```
 /products | GET | - | ```[{"ID": integer, "name": string, "price": double}]```
-/orders | POST | ```{"email": string, "products": [{"ID": integer, "name": string, "price": double}]}``` | ```{"ID": integer, "email": string, "products": [{"ID": integer, "name": string, "price": double}]}, "time": long```
-/orders/amount/{ID} | GET | ```{}``` | ```{}```
-/orders/{days} | GET | ```{}``` | ```{}```
+/orders | POST | ```{"email": string, "products": [{"ID": integer, "name": string, "price": double}]}``` | ```{"ID": integer, "email": string, "products": [{"ID": integer, "name": string, "price": double}]}, "time": long```}
+/orders/amount/{ID} | GET | - | ```Double```
+/orders/{days} | GET | - | ```[{"ID": integer, "email": string, "products": [{"ID": integer, "name": string, "price": double}]}, "time": long```}]
