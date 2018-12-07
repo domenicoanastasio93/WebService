@@ -71,7 +71,7 @@ public class ProductsOperation {
 	public ResponseEntity<Product> updateProduct(@PathVariable Integer ID, @RequestBody Product p)
 			throws FileNotFoundException, IOException {
 		
-		if(ID < 0 || p.getName() == null || p.getPrice() == 0)
+		if(ID < 0 || ID >= Init.products.size() || p.getName() == null || p.getPrice() == 0)
 			return new ResponseEntity<Product>(HttpStatus.BAD_REQUEST);
 		
 		for(int i=0; i<Init.products.size(); i++) {
