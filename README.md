@@ -75,37 +75,9 @@ Calculate the amount of an order | *calculateAmount(Order)*
 Retrieve all orders within a given time period | *retrieveOrders(Integer)*
 
 ---
-# 4. RestController
+# 4. JSON
 
-First of all, run the Spring application and connect to the address ```localhost:8080```.
-
-## 4.1 Products Operations
-
-For products operations, connect to ```/products```.
-
-```POST```: Create a new product
-* You must send the **name** and the **price** of the product
-
-```PUT```: Update a product
-* You must send the **name** of product to research, the **new name** and the **new price**
-* If the name or the price are the same, just rewrite them
-
-```GET```: Retrieve all products
-
-## 4.2 Orders Operations
-
-For orders operations, connect to ```/orders```.
-
-```POST```: Place an order
-* You must send the buyer's **e-mail** and the **list** of products in relation to the order
-* Obviously, the list can't be empty and products must correspond to the products in the list
-
-```GET``` (**require** ```/amount/{ID}```): Calculate the amount of and order
-
-```GET``` (**require** ```{days}```): Retrieve all orders within a given time period
-
----
-# 5. JSON
+Run the application and connect to the local address ```localhost:8080```.
 
 Path | Method | Requirements | Input | Output
 -----|--------|--------------|-------|-------
