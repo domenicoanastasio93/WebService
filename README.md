@@ -102,41 +102,13 @@ For orders operations, connect to ```\orders```.
 
 ```\GET``` (**require** ```{days}```): Retrieve all orders within a given time period
 
-# 5. Correct JSON Examples
+# 5. JSON
 
-## 5.1 Products ( ```localhost:8080/products``` )
-
-## 5.1.1 Create a new product
-
-```\POST:```
-
-```
-{
-    "name": "Smartphone"
-    "price": 220
-}
-```
-
-## 5.1.2 Update a product
-
-```\PUT:```
-
-```
-{
-    "ID": 0
-    "name": "New Smartphone"
-    "price": 200
-}
-```
-
-## 5.1.3 Retrieve all products
-
-```\GET:```
-
-```
-{
-    "ID": 0
-    "name": "New Smartphone"
-    "price": 200
-}
-```
+Path | Method | Input | Output
+-----|--------|-------|-------
+/products | POST | ```{"name": string, "price": double}``` | ```{"ID": integer, "name": string, "price": double}```
+/products/{ID} | PUT | ```{"ID": integer, "name": string, "price": double}``` | ```{"ID": integer, "name": string, "price": double}```
+/products | GET | - | ```[{"ID": integer, "name": string, "price": double}]```
+/orders | POST | ```{"email": string, "products": [{"ID": integer, "name": string, "price": double}]}``` | ```{"ID": integer, "email": string, "products": [{"ID": integer, "name": string, "price": double}]}, "time": long```
+/orders/amount/{ID} | GET | ```{}``` | ```{}```
+/orders/{days} | GET | ```{}``` | ```{}```
