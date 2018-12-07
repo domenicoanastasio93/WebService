@@ -75,13 +75,13 @@ It is possible to do 3 operations:
 ---
 # 4. RestController
 
-First of all, run the Spring application in the IDE to connect to ```localhost:8080```.
+First of all, run the Spring application and connect to the address ```localhost:8080```.
 
 ## 4.1 Products Operations
 
 For products operations, connect to ```\products```.
 
-```\POST```: Create a product
+```\POST```: Create a new product
 * You must send the **name** and the **price** of the product
 
 ```\PUT```: Update a product
@@ -96,7 +96,47 @@ For orders operations, connect to ```\orders```.
 
 ```\POST```: Place an order
 * You must send the buyer's **e-mail** and the **list** of products in relation to the order
+* Obviously, the list can't be empty and products must correspond to the products in the list
 
 ```\GET``` (**require** ```/amount/{ID}```): Calculate the amount of and order
 
 ```\GET``` (**require** ```{days}```): Retrieve all orders within a given time period
+
+# 5. Correct JSON Examples
+
+## 5.1 Products ( ```localhost:8080/products``` )
+
+## 5.1.1 Create a new product
+
+```\POST:```
+
+```
+{
+    "name": "Smartphone"
+    "price": 220
+}
+```
+
+## 5.1.2 Update a product
+
+```\PUT:```
+
+```
+{
+    "ID": 0
+    "name": "New Smartphone"
+    "price": 200
+}
+```
+
+## 5.1.3 Retrieve all products
+
+```\GET:```
+
+```
+{
+    "ID": 0
+    "name": "New Smartphone"
+    "price": 200
+}
+```
