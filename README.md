@@ -112,6 +112,6 @@ Path | Method | Requirements | Input | Output
 /products | POST | name - price | ```{"name": string, "price": double}``` | ```{"ID": integer, "name": string, "price": double}```
 /products/{ID} | PUT | name - price | ```{"ID": integer, "name": string, "price": double}``` | ```{"ID": integer, "name": string, "price": double}```
 /products | GET | - | - | ```[{"ID": integer, "name": string, "price": double}]```
-/orders | POST | e-mail - list | ```{"email": string, "products": [{"ID": integer, "name": string, "price": double}]}``` | ```{"ID": integer, "email": string, "products": [{"ID": integer, "name": string, "price": double}]}, "time": long```}
+/orders | POST | email - products | ```{"email": string, "products": [{"ID": integer, "name": string, "price": double}]}``` | ```{"ID": integer, "email": string, "products": [{"ID": integer, "name": string, "price": double}]}, "time": long```}
 /orders/amount/{ID} | GET | - | - | ```Double```
 /orders/{days} | GET | - | - | ```[{"ID": integer, "email": string, "products": [{"ID": integer, "name": string, "price": double}]}, "time": long```}]
