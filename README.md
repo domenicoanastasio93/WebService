@@ -80,7 +80,7 @@ Retrieve all orders within a given time period | *retrieveOrders(Integer)*
 Run the application and connect to the local address ```localhost:8080```
 
 Path | Method | JSON Input | JSON Output
------|--------|--------------|-------|-------
+-----|--------|------------|------------
 /products | POST | ```{"name": string, "price": double}``` | ```{"ID": integer, "name": string, "price": double}```
 /products/{ID} | PUT | ```{"ID": integer, "name": string, "price": double}``` | ```{"ID": integer, "name": string, "price": double}```
 /products | GET | - | - | ```[{"ID": integer, "name": string, "price": double}]```
