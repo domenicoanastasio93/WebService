@@ -98,7 +98,7 @@ public class OrdersOperation {
 	
 	/**
 	 * Retrieve all orders within a given time period
-	 * @param days - numbers of days start from (e.g. 2 days = from 2 days ago to now)
+	 * @param days - numbers of days ago (e.g. 2 days = retrieve orders from 2 days ago to now)
 	 * @return list of all orders from a specific day to now
 	 */
 	@RequestMapping(value="{days}", method=RequestMethod.GET)
