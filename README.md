@@ -25,7 +25,6 @@ Therefore, it has the following layout:
     +- products
     |   +- Product.java
     |   +- ProductsOperation.java
-    |   +- ProdutcUpdate.java
 ```
 
 All products and orders are saved respectively in the files *products.dat* and *orders.dat*,
@@ -42,6 +41,8 @@ Class **Product** has 3 parameters:
 * Price
 
 ## 2.2 Methods
+
+Class **ProductsOperation** has 3 methods:
 
 Description | Method
 ----------- | ------
@@ -61,6 +62,8 @@ Class **Order** has 4 parameters:
 * Placed time
 
 ## 3.2 Methods
+
+Class **OrdersOperation** has 3 methods:
 
 Description | Method
 ----------- | ------
