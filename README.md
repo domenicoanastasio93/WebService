@@ -76,11 +76,11 @@ Retrieve all orders within a given time period | *retrieveOrders(Integer)*
 
 Run the application and connect to the local address ```localhost:8080```
 
-Path | Method | JSON Input | JSON Output
------|--------|------------|------------
+Path | Params | Method | JSON Input | JSON Output
+-----|--------|--------|------------|------------
 /products | POST | ```{"name": string, "price": double}``` | ```{"ID": integer, "name": string, "price": double}```
-/products/{ID} | PUT | ```{"ID": integer, "name": string, "price": double}``` | ```{"ID": integer, "name": string, "price": double}```
+/products/{ID} | ID=Product ID | PUT | ```{"ID": integer, "name": string, "price": double}``` | ```{"ID": integer, "name": string, "price": double}```
 /products | GET | - | - | ```[{"ID": integer, "name": string, "price": double}]```
-/orders | POST |  ```{"email": string, "products": [{"ID": integer, "name": string, "price": double}]}``` | ```{"ID": integer, "email": string, "products": [{"ID": integer, "name": string, "price": double}]}, "time": long```}
+/orders | POST |  ```{"email": string, "products": [{"ID": integer, "name": string, "price": double}]}``` | ```{"ID": integer, "email": string, "products": [{"ID": integer, "name": string, "price": double}]}, "time": string```}
 /orders/amount/{ID} | GET | - | ```Double```
-/orders/{days} | GET | - | ```[{"ID": integer, "email": string, "products": [{"ID": integer, "name": string, "price": double}]}, "time": long```}]
+/orders/{days} | days=Number of days ago | GET | - | ```[{"ID": integer, "email": string, "products": [{"ID": integer, "name": string, "price": double}]}, "time": string```}]
