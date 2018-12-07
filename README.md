@@ -36,16 +36,10 @@ located in the main project directory.
 
 ## 2.1 Entity Classes
 
-Class **Product** has 2 parameters:
+Class **Product** has 3 parameters:
+* ID
 * Name
 * Price
-
-Class **ProductUpdate** extends *Product* and it has an additional parameter:
-* OldName (from *Product*)
-* NewName
-* Price (from *Product*)
-
-*ProductUpdate* is used to update a product, which is found through the parameter *OldName*.
 
 ## 2.2 Methods
 
