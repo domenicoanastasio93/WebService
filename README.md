@@ -15,6 +15,7 @@ Therefore, it has the following layout:
 ```
 +- com.example.webservice
     +- Init.java
+    +- WebSecurityConfig.java
     +- WebServiceApplication.java
     |
     +- orders
