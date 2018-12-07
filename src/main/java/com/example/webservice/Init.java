@@ -43,5 +43,4 @@ public class Init {
 			orders.addAll((ArrayList<Order>) in.readObject());
 		}
 	}
-
 }

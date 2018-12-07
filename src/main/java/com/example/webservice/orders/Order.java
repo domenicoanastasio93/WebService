@@ -31,24 +31,12 @@ public class Order implements Serializable {
 		return ID;
 	}
 
-	public void setID(Integer iD) {
-		ID = iD;
-	}
-
 	public String getEmail() {
 		return email;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public ArrayList<Product> getProducts() {
 		return products;
-	}
-
-	public void setProducts(ArrayList<Product> products) {
-		this.products = products;
 	}
 
 	public String getTime() {

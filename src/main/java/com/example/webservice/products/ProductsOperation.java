@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,7 +51,8 @@ public class ProductsOperation {
 			}
 		}
 		
-		Init.products.add(new Product(p.getName(), p.getPrice()));
+		int newID = Init.products.size();
+		Init.products.add(new Product(newID, p.getName(), p.getPrice()));
 		
 		out = new ObjectOutputStream(new FileOutputStream(Init.productsFile));
 		out.writeObject(Init.products);
@@ -65,18 +67,18 @@ public class ProductsOperation {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	@RequestMapping(value="", method=RequestMethod.PUT)
-	public ResponseEntity<Product> updateProduct(@RequestBody ProductUpdate p)
+	@RequestMapping(value="{ID}", method=RequestMethod.PUT)
+	public ResponseEntity<Product> updateProduct(@PathVariable Integer ID, @RequestBody Product p)
 			throws FileNotFoundException, IOException {
 		
-		if(p.getName() == null || p.getNewName() == null || p.getPrice() == 0)
+		if(ID < 0 || p.getName() == null || p.getPrice() == 0)
 			return new ResponseEntity<Product>(HttpStatus.BAD_REQUEST);
 		
 		for(int i=0; i<Init.products.size(); i++) {
 
 			if(Init.products.get(i).getName().equals(p.getName())) {
 				
-				Init.products.get(i).setName(p.getNewName());
+				Init.products.get(i).setName(p.getName());
 				Init.products.get(i).setPrice(p.getPrice());
 				
 				out = new ObjectOutputStream(new FileOutputStream(Init.productsFile));

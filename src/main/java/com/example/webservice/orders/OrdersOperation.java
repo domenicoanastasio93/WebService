@@ -47,10 +47,26 @@ public class OrdersOperation {
 		if(o.getEmail() == null || o.getProducts() == null || o.getProducts().size() == 0)
 			return new ResponseEntity<Order>(HttpStatus.BAD_REQUEST);
 		
+		boolean check;
+		for(int i=0; i<o.getProducts().size(); i++) {
+			
+			check = false;
+			
+			for(int j=0; j<Init.products.size(); j++) {
+				
+				if(o.getProducts().get(i).getID() == (Init.products.get(i).getID())){			
+					check = true;
+				}
+			}
+			
+			if(!check) return new ResponseEntity<Order>(HttpStatus.BAD_REQUEST);
+		}
+		
 		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy  HH:mm:ss");    
 		Date date = new Date(System.currentTimeMillis());
 		
-		Order newOrder = new Order(Init.orders.size(), o.getEmail(), o.getProducts(), format.format(date));
+		int newID = Init.orders.size();
+		Order newOrder = new Order(newID, o.getEmail(), o.getProducts(), format.format(date));
 		Init.orders.add(newOrder);
 		
 		out = new ObjectOutputStream(new FileOutputStream(Init.ordersFile));
