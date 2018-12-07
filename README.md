@@ -104,6 +104,7 @@ For orders operations, connect to ```/orders```.
 
 ```GET``` (**require** ```{days}```): Retrieve all orders within a given time period
 
+---
 # 5. JSON
 
 Path | Method | Input | Output
