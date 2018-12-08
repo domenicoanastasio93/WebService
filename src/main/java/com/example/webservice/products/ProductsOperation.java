@@ -41,23 +41,17 @@ public class ProductsOperation {
 	public ResponseEntity<Product> createProduct(@RequestBody Product p)
 			throws FileNotFoundException, IOException {
 		
-		if(p.getName() == null || p.getPrice() == 0)
+		if(p.getName() == null || p.getPrice() <= 0)
 			return new ResponseEntity<Product>(HttpStatus.BAD_REQUEST);
 		
-		for(int i=0; i<Init.products.size(); i++) {
-			
-			if(Init.products.get(i).getName().equals(p.getName())) {
-				return new ResponseEntity<Product>(HttpStatus.BAD_REQUEST);
-			}
-		}
-		
 		int newID = Init.products.size();
-		Init.products.add(new Product(newID, p.getName(), p.getPrice()));
+		Product newP = new Product(newID, p.getName(), p.getPrice());
+		Init.products.add(newP);
 		
 		out = new ObjectOutputStream(new FileOutputStream(Init.productsFile));
 		out.writeObject(Init.products);
 		
-		return new ResponseEntity<Product>(p, HttpStatus.OK);
+		return new ResponseEntity<Product>(newP, HttpStatus.OK);
 	}
 	
 	/**
@@ -71,12 +65,12 @@ public class ProductsOperation {
 	public ResponseEntity<Product> updateProduct(@PathVariable Integer ID, @RequestBody Product p)
 			throws FileNotFoundException, IOException {
 		
-		if(ID < 0 || ID >= Init.products.size() || p.getName() == null || p.getPrice() == 0)
+		if(ID < 0 || ID >= Init.products.size() || p.getName() == null || p.getPrice() <= 0)
 			return new ResponseEntity<Product>(HttpStatus.BAD_REQUEST);
 		
 		for(int i=0; i<Init.products.size(); i++) {
 
-			if(Init.products.get(i).getName().equals(p.getName())) {
+			if(Init.products.get(i).getId().equals(p.getId())) {
 				
 				Init.products.get(i).setName(p.getName());
 				Init.products.get(i).setPrice(p.getPrice());

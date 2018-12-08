@@ -25,6 +25,10 @@ Therefore, it has the following layout:
     +- products
     |   +- Product.java
     |   +- ProductsOperation.java
+    |
+    +- test
+    |   +- OrderUnitTest.java
+    |   +- ProductUnitTest.java
 ```
 
 All products and orders are saved respectively in the files *products.dat* and *orders.dat*,
@@ -36,19 +40,22 @@ located in the main project directory.
 ## 2.1 Entity Class
 
 Class **Product** has 3 parameters:
-* ID
-* Name
-* Price
+
+Param | Description
+----- | -----------
+ID | Product ID
+Name | Product name
+Price | Product price
 
 ## 2.2 Methods
 
 Class **ProductsOperation** has 3 methods:
 
-Description | Method
------------ | ------
-Create a new product | *createProduct(Product)*
-Retrieve all products | *retrieveProdcuts()*
-Update a product | *updateProduct(Product)*
+Method | Description
+------ | -----------
+*createProduct(Product)* | Create a new product
+*retrieveProdcuts()* | Retrieve all products
+*updateProduct(Product)* | Update a product
 
 ---
 # 3. Orders
@@ -56,20 +63,23 @@ Update a product | *updateProduct(Product)*
 ## 3.1 Entity Class
 
 Class **Order** has 4 parameters:
-* ID
-* Buyer's e-mail
-* Products list
-* Placed time
+
+Param | Description
+----- | -----------
+ID | Product ID
+Email | Buyer's email
+Product | Products list related to the order
+Time | Time when the order was placed
 
 ## 3.2 Methods
 
 Class **OrdersOperation** has 3 methods:
 
-Description | Method
------------ | ------
-Place an order | *placeOrder(Order)*
-Calculate the amount of an order | *calculateAmount(Order)*
-Retrieve all orders within a given time period | *retrieveOrders(Integer)*
+Method | Description
+------ | -----------
+*placeOrder(Order)* | Place an order
+*calculateAmount(Order)* | Calculate the amount of an order
+*retrieveOrders(Integer)* | Retrieve all orders within a given time period
 
 ---
 # 4. RestController
@@ -84,3 +94,10 @@ Path | Params | Method | JSON Input | JSON Output
 /orders | - | POST |  ```{"email": string, "products": [{"ID": integer, "name": string, "price": double}]}``` | ```{"ID": integer, "email": string, "products": [{"ID": integer, "name": string, "price": double}]}, "time": string}```
 /orders/amount/{ID} | ID = Order ID | GET | - | ```Double```
 /orders/{days} | days = Number of days ago | GET | - | ```[{"ID": integer, "email": string, "products": [{"ID": integer, "name": string, "price": double}]}, "time": string}]```
+
+---
+# 5. UnitTest
+
+Entity | Test | Input | Expect
+-------|------|-------|-------
+Product | Retrieve products | - | The list is empty

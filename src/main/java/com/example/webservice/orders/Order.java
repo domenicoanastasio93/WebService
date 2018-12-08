@@ -15,20 +15,26 @@ import com.example.webservice.products.Product;
 public class Order implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer ID;
+	private Integer id;
 	private String email;
 	private ArrayList<Product> products;
 	private String time;
 	
-	public Order(Integer ID, String email, ArrayList<Product> products, String time) {
-		this.ID = ID;
+	/**
+	 * @param id - Order ID
+	 * @param email - Buyer's email
+	 * @param products - List of products related to the order
+	 * @param time - Time when the order was placed
+	 */
+	public Order(Integer id, String email, ArrayList<Product> products, String time) {
+		this.id = id;
 		this.email = email;
 		this.products = products;
 		this.time = time;
 	}
 
-	public Integer getID() {
-		return ID;
+	public Integer getId() {
+		return id;
 	}
 
 	public String getEmail() {

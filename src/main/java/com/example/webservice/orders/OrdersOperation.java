@@ -51,10 +51,9 @@ public class OrdersOperation {
 		for(int i=0; i<o.getProducts().size(); i++) {
 			
 			check = false;
-			
 			for(int j=0; j<Init.products.size(); j++) {
 				
-				if(o.getProducts().get(i).getID() == (Init.products.get(i).getID())){			
+				if(o.getProducts().get(i).getId() == (Init.products.get(i).getId())){			
 					check = true;
 				}
 			}

@@ -10,18 +10,23 @@ import java.io.Serializable;
 public class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private Integer ID;
+	private Integer id;
 	private String name;
 	private Double price;
 
-	public Product(Integer ID, String name, Double price) {
-		this.ID = ID;
+	/**
+	 * @param id - Product ID
+	 * @param name - Product name
+	 * @param price - Product price
+	 */
+	public Product(Integer id, String name, Double price) {
+		this.id = id;
 		this.name = name;
 		this.price = price;
 	}
 	
-	public Integer getID() {
-		return ID;
+	public Integer getId() {
+		return id;
 	}
 
 	public String getName() {
