@@ -1,9 +1,12 @@
 package com.example.webservice.orders;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,78 +31,113 @@ import com.example.webservice.products.Product;
 @RestController
 @RequestMapping("/orders")
 public class OrdersOperation {
-	
-	private static final long serialVersionUID = 1L;
-	private ObjectOutputStream out;
 
 	/**
 	 * Placing and order
 	 * @author Domenico Anastasio - 2018 ©
-	 * @param o - order to be placed
+	 * @param o - Order to be placed
 	 * @return JSON of the new order
 	 * @throws FileNotFoundException
 	 * @throws IOException
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
 	 */
 	@RequestMapping(value="", method=RequestMethod.POST)
 	public ResponseEntity<Order> placeOrder(@RequestBody Order o)
-			throws FileNotFoundException, IOException {
+			throws SQLException, ClassNotFoundException {
 		
-		if(o.getEmail() == null || o.getProducts() == null || o.getProducts().size() == 0)
+		Connection c =Init.startConnection();
+		
+		if(o.getEmail() == null)
 			return new ResponseEntity<Order>(HttpStatus.BAD_REQUEST);
 		
-		boolean check;
+		int count = 0;
 		for(int i=0; i<o.getProducts().size(); i++) {
 			
-			check = false;
-			for(int j=0; j<Init.products.size(); j++) {
-				
-				if(o.getProducts().get(i).getId() == (Init.products.get(i).getId())){			
-					check = true;
-				}
-			}
+			PreparedStatement select = c.prepareStatement("SELECT * FROM products"
+					+ " WHERE id = " + o.getProducts().get(i).getId());
+			ResultSet result = select.executeQuery();
 			
-			if(!check) return new ResponseEntity<Order>(HttpStatus.BAD_REQUEST);
+			if(result.next()) count++;
 		}
+
+		if(count == 0)
+			return new ResponseEntity<Order>(HttpStatus.BAD_REQUEST);
 		
 		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy  HH:mm:ss");    
 		Date date = new Date(System.currentTimeMillis());
+		String timeNow = format.format(date);
+
+		String query2 = "INSERT INTO orders(email, time) VALUES(?, ?);";
+		PreparedStatement insert2 = c.prepareStatement(query2, Statement.RETURN_GENERATED_KEYS);
+		insert2.setString(1, o.getEmail());
+		insert2.setString(2, timeNow);
+		insert2.executeUpdate();
+		ResultSet result2 = insert2.getGeneratedKeys();
 		
-		int newID = Init.orders.size();
-		Order newOrder = new Order(newID, o.getEmail(), o.getProducts(), format.format(date));
-		Init.orders.add(newOrder);
-		Init.writeOrders();
+		for(int i=0; i<o.getProducts().size(); i++) {
+			
+			String query1 = "INSERT INTO ordered_products(id_order, id_product, name, price) VALUES(?, ?, ?, ?);";
+			PreparedStatement insert1 = c.prepareStatement(query1);
+			insert1.setInt(1, (int) result2.getLong(1));
+			insert1.setInt(2, o.getProducts().get(i).getId());
+			insert1.setString(3, o.getProducts().get(i).getName());
+			insert1.setDouble(4, o.getProducts().get(i).getPrice());
+			insert1.executeUpdate();
+			
+		}
 		
-		return new ResponseEntity<Order>(newOrder, HttpStatus.OK);
+		return new ResponseEntity<Order>(new Order(
+				(int) result2.getLong(1),
+				o.getEmail(),
+				o.getProducts(),
+				timeNow),
+				HttpStatus.OK);
 	}
 	
 	/**
 	 * Calculate the amount of an order
-	 * @param ID - ID of the order to be calculated
-	 * @return
+	 * @param id - Id of the order to be calculated
+	 * @return JSON of the amount
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
 	 */
 	@RequestMapping(value="/amount/{id}", method=RequestMethod.GET)
-	public ResponseEntity<Double> calculateAmount(@PathVariable Integer id) {
+	public ResponseEntity<Double> calculateAmount(@PathVariable Integer id)
+			throws SQLException, ClassNotFoundException {
 		
-		if(id < 0 || id >= Init.orders.size())
+		Connection c =Init.startConnection();
+		
+		PreparedStatement select = c.prepareStatement("SELECT * FROM orders"
+				+ " WHERE id = " + id);
+		ResultSet result = select.executeQuery();
+		
+		if(!result.next())
 			return new ResponseEntity<Double>(HttpStatus.BAD_REQUEST);
 		
-		ArrayList<Product> list = Init.orders.get(id).getProducts();
+		PreparedStatement select2 = c.prepareStatement("SELECT * FROM ordered_products"
+				+ " WHERE id_order = " + id);
+		ResultSet result2 = select2.executeQuery();
+
 		Double sum = 0.0;
 		
-		for(int i=0; i<list.size(); i++) {
-			sum = sum + list.get(i).getPrice();
-		}
+		while(result2.next()) {sum = sum + result2.getDouble("price");}
 		
 		return new ResponseEntity<Double>(sum, HttpStatus.OK);
 	}
 	
 	/**
 	 * Retrieve all orders within a given time period
-	 * @param days - numbers of days ago (e.g. 2 days = retrieve orders from 2 days ago to now)
-	 * @return list of all orders from a specific day to now
+	 * @param days - Numbers of days ago (e.g. 2 days = retrieve orders from 2 days ago to now)
+	 * @return List of all orders from a specific day to now
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
 	 */
 	@RequestMapping(value="{days}", method=RequestMethod.GET)
-	public ResponseEntity<ArrayList<Order>> retrieveOrders(@PathVariable Integer days) {
+	public ResponseEntity<ArrayList<Order>> retrieveOrders(@PathVariable Integer days)
+			throws SQLException, ClassNotFoundException {
+		
+		Connection c =Init.startConnection();
 		
 		if(days < 1)
 			return new ResponseEntity<ArrayList<Order>>(HttpStatus.BAD_REQUEST);
@@ -107,10 +145,26 @@ public class OrdersOperation {
 		long time = 86400000 * days, ms = 0;
 		ArrayList<Order> list = new ArrayList<>();
 		
-		for(int i=0; i<Init.orders.size(); i++) {
+		PreparedStatement select = c.prepareStatement("SELECT * FROM orders");
+		ResultSet result = select.executeQuery();
+		
+		while(result.next()) {
 			
-			String stringDate = Init.orders.get(i).getTime();
+			ArrayList<Product> list2 = new ArrayList<>();
+			
+			PreparedStatement select2 = c.prepareStatement("SELECT * FROM ordered_products"
+					+ " WHERE id_order = " + result.getInt("id"));
+			ResultSet result2 = select2.executeQuery();
+			
+			while(result2.next()) {
 
+				list2.add(new Product(
+						result2.getInt("id_product"),
+						result2.getString("name"),
+						result2.getDouble("price")));
+			}
+			
+			String stringDate = result.getString("time");
 			SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy  HH:mm:ss");
 			try {
 			    Date d = f.parse(stringDate);
@@ -120,7 +174,11 @@ public class OrdersOperation {
 			}
 			
 			if(System.currentTimeMillis()-ms <= time)
-				list.add(Init.orders.get(i));
+				list.add(new Order(
+						result.getInt("id"),
+						result.getString("email"),
+						list2,
+						result.getString("time")));
 		}
 		
 		return new ResponseEntity<ArrayList<Order>>(list, HttpStatus.OK);

@@ -1,15 +1,12 @@
 package com.example.webservice.products;
 
-import java.io.Serializable;
-
 /**
  * Enity class for products
  * 
  * @author Domenico Anastasio - 2018 ©
  */
-public class Product implements Serializable {
+public class Product {
 
-	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String name;
 	private Double price;

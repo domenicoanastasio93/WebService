@@ -1,8 +1,6 @@
 package com.example.webservice;
 
-import java.io.FileNotFoundException;
-
-import java.io.IOException;
+import java.sql.SQLException;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class WebServiceApplication {
 
-	public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException, IOException {
+	public static void main(String[] args) throws SQLException, ClassNotFoundException {
 		SpringApplication.run(WebServiceApplication.class, args);
 		new Init();
 	}

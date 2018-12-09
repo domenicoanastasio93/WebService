@@ -1,9 +1,6 @@
 package com.example.webservice.orders;
 
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.example.webservice.products.Product;
 
@@ -12,9 +9,8 @@ import com.example.webservice.products.Product;
  * 
  * @author Domenico Anastasio - 2018 ©
  */
-public class Order implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
+public class Order {
+
 	private Integer id;
 	private String email;
 	private ArrayList<Product> products;
