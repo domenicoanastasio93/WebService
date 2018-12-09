@@ -67,9 +67,7 @@ public class OrdersOperation {
 		int newID = Init.orders.size();
 		Order newOrder = new Order(newID, o.getEmail(), o.getProducts(), format.format(date));
 		Init.orders.add(newOrder);
-		
-		out = new ObjectOutputStream(new FileOutputStream(Init.ordersFile));
-		out.writeObject(Init.orders);
+		Init.writeOrders();
 		
 		return new ResponseEntity<Order>(newOrder, HttpStatus.OK);
 	}
@@ -79,13 +77,13 @@ public class OrdersOperation {
 	 * @param ID - ID of the order to be calculated
 	 * @return
 	 */
-	@RequestMapping(value="/amount/{ID}", method=RequestMethod.GET)
-	public ResponseEntity<Double> calculateAmount(@PathVariable Integer ID) {
+	@RequestMapping(value="/amount/{id}", method=RequestMethod.GET)
+	public ResponseEntity<Double> calculateAmount(@PathVariable Integer id) {
 		
-		if(ID < 0 || ID >= Init.orders.size())
+		if(id < 0 || id >= Init.orders.size())
 			return new ResponseEntity<Double>(HttpStatus.BAD_REQUEST);
 		
-		ArrayList<Product> list = Init.orders.get(ID).getProducts();
+		ArrayList<Product> list = Init.orders.get(id).getProducts();
 		Double sum = 0.0;
 		
 		for(int i=0; i<list.size(); i++) {

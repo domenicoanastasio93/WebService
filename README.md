@@ -13,7 +13,7 @@ The application is composed of 2 main concepts:
 Therefore, it has the following layout:
 
 ```
-+- com.example.webservice
++- .webservice
     +- Init.java
     +- WebSecurityConfig.java
     +- WebServiceApplication.java
@@ -27,8 +27,7 @@ Therefore, it has the following layout:
     |   +- ProductsOperation.java
     |
     +- test
-    |   +- OrderUnitTest.java
-    |   +- ProductUnitTest.java
+    |   +- UnitTest.java
 ```
 
 All products and orders are saved respectively in the files *products.dat* and *orders.dat*,
@@ -98,6 +97,6 @@ Path | Params | Method | JSON Input | JSON Output
 ---
 # 5. UnitTest
 
-Entity | Test | Input | Expect
--------|------|-------|-------
-Product | Retrieve products | - | The list is empty
+**Important:** Files *products.dat* and *orders.dat* will be deleted during test. Backup files before starting.
+
+To do Unit tests just run *UnitTest* class, located in package *test*.

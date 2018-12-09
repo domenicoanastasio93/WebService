@@ -47,9 +47,7 @@ public class ProductsOperation {
 		int newID = Init.products.size();
 		Product newP = new Product(newID, p.getName(), p.getPrice());
 		Init.products.add(newP);
-		
-		out = new ObjectOutputStream(new FileOutputStream(Init.productsFile));
-		out.writeObject(Init.products);
+		Init.writeProducts();
 		
 		return new ResponseEntity<Product>(newP, HttpStatus.OK);
 	}
@@ -61,11 +59,11 @@ public class ProductsOperation {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	@RequestMapping(value="{ID}", method=RequestMethod.PUT)
-	public ResponseEntity<Product> updateProduct(@PathVariable Integer ID, @RequestBody Product p)
+	@RequestMapping(value="{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Product> updateProduct(@PathVariable Integer id, @RequestBody Product p)
 			throws FileNotFoundException, IOException {
 		
-		if(ID < 0 || ID >= Init.products.size() || p.getName() == null || p.getPrice() <= 0)
+		if(id < 0 || id >= Init.products.size() || p.getName() == null || p.getPrice() <= 0)
 			return new ResponseEntity<Product>(HttpStatus.BAD_REQUEST);
 		
 		for(int i=0; i<Init.products.size(); i++) {
@@ -74,9 +72,8 @@ public class ProductsOperation {
 				
 				Init.products.get(i).setName(p.getName());
 				Init.products.get(i).setPrice(p.getPrice());
+				Init.writeProducts();
 				
-				out = new ObjectOutputStream(new FileOutputStream(Init.productsFile));
-				out.writeObject(Init.products);
 				return new ResponseEntity<Product>(Init.products.get(i), HttpStatus.OK);
 			}
 		}

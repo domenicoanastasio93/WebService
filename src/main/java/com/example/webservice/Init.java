@@ -3,8 +3,10 @@ package com.example.webservice;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import com.example.webservice.orders.Order;
@@ -22,6 +24,7 @@ public class Init {
 	public static ArrayList<Order> orders;
 	public static File productsFile, ordersFile;
 	private ObjectInputStream in;
+	private static ObjectOutputStream out;
 	
 	public Init() throws FileNotFoundException, IOException, ClassNotFoundException {
 		
@@ -42,5 +45,17 @@ public class Init {
 			in = new ObjectInputStream(new FileInputStream(ordersFile));
 			orders.addAll((ArrayList<Order>) in.readObject());
 		}
+	}
+	
+	public static void writeProducts() throws FileNotFoundException, IOException {
+		
+		out = new ObjectOutputStream(new FileOutputStream(productsFile));
+		out.writeObject(products);
+	}
+	
+	public static void writeOrders() throws FileNotFoundException, IOException {
+		
+		out = new ObjectOutputStream(new FileOutputStream(ordersFile));
+		out.writeObject(orders);
 	}
 }
