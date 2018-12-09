@@ -6,6 +6,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.sql.Connection;
+import java.sql.Statement;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -22,6 +25,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.example.webservice.Init;
 
+import java.io.File;
 import org.hamcrest.Matchers;
 
 /**
@@ -41,15 +45,11 @@ public class UnitTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception{
-		new Init();
-
-		Init.productsFile.delete();
-		Init.productsFile.createNewFile();
-		Init.products.clear();
 		
-		Init.ordersFile.delete();
-		Init.ordersFile.createNewFile();
-		Init.orders.clear();
+		File file = new File("database/database.db");
+		file.delete();
+		
+		new Init();
 	}
 	
 	@Before
@@ -149,10 +149,11 @@ public class UnitTest {
 	@Test
 	public void FUpdateProductTrue() throws Exception {
 		
-		String json = "{\"id\": 0,\"name\": \"New Item\",\"price\": 10}";
-		mock.perform(put("/products/0")
+		String json = "{\"id\": 1,\"name\": \"New Item\",\"price\": 10}";
+		mock.perform(put("/products/1")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json))
+		.andExpect(jsonPath("$.id", Matchers.is(1)))
 		.andExpect(jsonPath("$.name", Matchers.is("New Item")))
 		.andExpect(jsonPath("$.price", Matchers.is(10.0)))
 		.andExpect(jsonPath("$.*", Matchers.is(Matchers.hasSize(3))))

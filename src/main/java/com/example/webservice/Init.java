@@ -1,16 +1,9 @@
 package com.example.webservice;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-
-import com.example.webservice.orders.Order;
-import com.example.webservice.products.Product;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Class used to initialize files and arraylists for products and orders
@@ -18,44 +11,46 @@ import com.example.webservice.products.Product;
  * @author Domenico Anastasio - 2018 ©
  */
 public class Init {
+
+	public static Connection c = null;
+	private Statement s = null;
+	private String query = "";
 	
-	private static final long serialVersionUID = 1L;
-	public static ArrayList<Product> products;
-	public static ArrayList<Order> orders;
-	public static File productsFile, ordersFile;
-	private ObjectInputStream in;
-	private static ObjectOutputStream out;
-	
-	public Init() throws FileNotFoundException, IOException, ClassNotFoundException {
+	public Init() throws ClassNotFoundException, SQLException {
 		
-		productsFile = new File("products.dat");
-		if(!productsFile.exists()) productsFile.createNewFile();
+		Class.forName("org.sqlite.JDBC");
+		c = DriverManager.getConnection("jdbc:sqlite:database/database.db");
 		
-		products = new ArrayList<>();
-		if(productsFile.length() > 0) {
-			in = new ObjectInputStream(new FileInputStream(productsFile));
-			products.addAll((ArrayList<Product>) in.readObject());
-		}
+		s = c.createStatement();
+		query = "CREATE TABLE IF NOT EXISTS products"
+				+ "(id INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ "name VARCHAR(255) NOT NULL,"
+				+ "price DOUBLE NOT NULL);";
+		s.execute(query);
 		
-		ordersFile = new File("orders.dat");
-		if(!ordersFile.exists()) ordersFile.createNewFile();
+		s = c.createStatement();
+		query = "CREATE TABLE IF NOT EXISTS orders"
+				+ "(id INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ "email VARCHAR(255) NOT NULL,"
+				+ "time VARCHAR(255) NOT NULL);";
+		s.execute(query);
 		
-		orders = new ArrayList<>();
-		if(ordersFile.length() > 0) {
-			in = new ObjectInputStream(new FileInputStream(ordersFile));
-			orders.addAll((ArrayList<Order>) in.readObject());
-		}
+		s = c.createStatement();
+		query = "CREATE TABLE IF NOT EXISTS ordered_products"
+				+ "(id_order INTEGER NOT NULL,"
+				+ "id_product INTEGER NOT NULL,"
+				+ "name VARCHAR(255) NOT NULL,"
+				+ "price DOUBLE NOT NULL);";
+		s.execute(query);
 	}
 	
-	public static void writeProducts() throws FileNotFoundException, IOException {
+	public static Connection startConnection() throws ClassNotFoundException, SQLException {
 		
-		out = new ObjectOutputStream(new FileOutputStream(productsFile));
-		out.writeObject(products);
-	}
-	
-	public static void writeOrders() throws FileNotFoundException, IOException {
+		Connection c = null;
 		
-		out = new ObjectOutputStream(new FileOutputStream(ordersFile));
-		out.writeObject(orders);
+		Class.forName("org.sqlite.JDBC");
+		c = DriverManager.getConnection("jdbc:sqlite:database/database.db");
+		
+		return c;
 	}
 }

@@ -30,7 +30,7 @@ Therefore, it has the following layout:
     |   +- UnitTest.java
 ```
 
-All products and orders are saved respectively in the files *products.dat* and *orders.dat*, located in the main project directory.
+All products and orders are saved respectively in *database.db*, located in *WebService/database/*.
 
 ---
 # 2. Products
@@ -96,6 +96,6 @@ Path | Params | Method | JSON Input | JSON Output
 ---
 # 5. UnitTest
 
-**Important:** Files *products.dat* and *orders.dat* will be deleted during test. Backup files before starting, located in the main project directory.
+**Important:** Database will be deleted during the test. Backup file before starting (located in *WebService/database/*).
 
 To do Unit tests just run *UnitTest* class, located in package *test*.
